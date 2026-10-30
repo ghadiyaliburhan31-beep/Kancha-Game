@@ -1,0 +1,13 @@
+{
+  "name": "kancha-game",
+  "version": "1.0.0",
+  "description": "Kancha - Authentic Indian Street Marble Championship",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo Game web assets ready"
+  },
+  "keywords": ["kancha", "marbles", "game", "android"],
+  "author": "Antigravity",
+  "license": "ISC"
+}

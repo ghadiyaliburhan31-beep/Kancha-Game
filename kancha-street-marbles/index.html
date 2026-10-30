@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#14110E">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Kancha - The Indian Street Marble Championship</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="game-app">
+
+      <!-- 1. LANDING SCREEN (Clean, Calm & Minimalist) -->
+      <div id="screen-landing" class="screen active">
+        <div class="landing-content">
+          <div class="landing-tagline-top">INDIAN STREET MARBLES</div>
+          <h1 class="landing-title">KANCHA</h1>
+          <p class="landing-subtitle">An authentic physics tribute to childhood street marbles.</p>
+          
+          <div class="hero-marble-container">
+            <canvas id="hero-marble-canvas" width="120" height="120"></canvas>
+          </div>
+
+          <!-- Guest Profile Card on Landing Screen -->
+          <div id="landing-guest-card" class="guest-profile-card clickable" title="Click to customize your Avatar & Profile">
+            <div class="guest-avatar-bubble" id="landing-guest-avatar">🧒</div>
+            <div class="guest-info">
+              <div class="guest-header-line">
+                <span class="guest-name" id="landing-guest-name">Raju</span>
+                <span class="guest-id-badge" id="landing-guest-id">GUEST#1234</span>
+              </div>
+              <div class="guest-stats-line">
+                <span class="guest-level-tag" id="landing-guest-level">🎯 Level 1</span>
+                <span class="guest-stars-tag" id="landing-guest-stars">⭐ 0</span>
+                <span class="guest-coins-tag" id="landing-guest-coins">🪙 40</span>
+              </div>
+            </div>
+            <div class="guest-edit-pill">✏️ Edit</div>
+          </div>
+
+          <!-- Main Dynamic Continue / Start Button -->
+          <button id="btn-landing-play" class="btn-play-clean">
+            <span id="btn-landing-play-icon">▶</span>
+            <span id="btn-landing-play-text">CONTINUE LEVEL 1</span>
+          </button>
+
+          <!-- Secondary Options Row -->
+          <div class="landing-secondary-buttons">
+            <button id="btn-landing-modes" class="btn-secondary-clean" title="Select Solo, AI Bot or 2-Player">
+              <span>🎮</span> Game Modes
+            </button>
+            <button id="btn-landing-guide" class="btn-secondary-clean" title="Game Features & Rules">
+              <span>📖</span> Guide
+            </button>
+          </div>
+        </div>
+      </div>
+
+    <!-- 2. MODE SELECTION SCREEN -->
+    <div id="screen-mode-select" class="screen">
+      <div class="mode-header">
+        <button id="btn-back-to-landing" class="btn-icon-subtle" title="Back">◀</button>
+        <h2 class="screen-title">SELECT GAME MODE</h2>
+        <div style="display: flex; gap: 8px;">
+          <button id="btn-mode-guide" class="btn-icon-subtle" title="Game Features & Rules Guide">📖</button>
+          <button id="btn-mode-settings" class="btn-icon-subtle" title="Settings">⚙️</button>
+        </div>
+      </div>
+
+      <div class="mode-cards-container">
+        <!-- Option 1: Solo Campaign (50 Levels) -->
+        <div class="mode-card" id="mode-card-solo">
+          <div class="mode-icon">🎯</div>
+          <div class="mode-info">
+            <h3 class="mode-title">Play Alone</h3>
+            <p class="mode-desc">50 progressive levels. Saanp-Seedhi map & rainy street obstacles.</p>
+          </div>
+          <button class="mode-btn">50 Levels ➡</button>
+        </div>
+
+        <!-- Option 2: AI Bot Match -->
+        <div class="mode-card" id="mode-card-bot">
+          <div class="mode-icon">🤖</div>
+          <div class="mode-info">
+            <h3 class="mode-title">Play with AI Bot</h3>
+            <p class="mode-desc">Turn-based street match against Chintu (AI Bot). First to 4 wins.</p>
+          </div>
+          <button class="mode-btn">Vs AI ➡</button>
+        </div>
+
+        <!-- Option 3: 2-Player Friend Match -->
+        <div class="mode-card" id="mode-card-friend">
+          <div class="mode-icon">👥</div>
+          <div class="mode-info">
+            <h3 class="mode-title">Play with Friend</h3>
+            <p class="mode-desc">Pass and play on the same screen. Green Striker vs Red Striker.</p>
+          </div>
+          <button class="mode-btn">2-Player ➡</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. MINIMALIST GAMEPLAY ARENA -->
+    <div id="screen-game" class="screen">
+      <!-- Complete Multiplatform Floating Top HUD -->
+      <header id="top-bar">
+        <!-- Row 1: Primary Navigation, Tablet Status & Resources -->
+        <div class="hud-row hud-primary-row">
+          <div class="hud-group hud-nav">
+            <button id="btn-home" class="btn-icon-subtle" title="Main Menu">🏠</button>
+            <button id="btn-hud-profile" class="btn-icon-subtle" title="Guest Profile & Avatar">
+              <span id="hud-avatar-icon" style="font-size: 16px;">🧒</span>
+            </button>
+            <button id="btn-map" class="btn-icon-subtle" title="50-Stage Board Map">🗺️</button>
+            <button id="btn-guide" class="btn-icon-subtle" title="Game Features & Rules Guide">📖</button>
+          </div>
+
+          <!-- Tablet Center Status Group (shown on tablet, hidden on phone) -->
+          <div class="hud-group hud-status-tablet">
+            <div class="hud-pill clickable" id="hud-level-badge" title="Click for 50-Level Map">
+              <span id="hud-level-text">Level 1</span>
+              <span style="opacity: 0.5;">•</span>
+              <span id="hud-shots-text">🎯 5</span>
+            </div>
+
+            <div class="hud-pill" id="hud-multiplayer-scoreboard" style="display: none;">
+              <span id="p1-score-tag">P1: 0</span>
+              <span style="opacity: 0.5;">-</span>
+              <span id="p2-score-tag">P2: 0</span>
+            </div>
+          </div>
+
+          <!-- Resource Badges & Action Buttons -->
+          <div class="hud-group hud-actions">
+            <!-- 💡 Bulb Hint Button -->
+            <div class="hud-pill bulb clickable" id="btn-bulb-hint" title="Use 1 Bulb for Golden Aim Guide">
+              <span>💡</span>
+              <span id="hud-bulbs">2</span>
+            </div>
+
+            <!-- Coins Pill -->
+            <div class="hud-pill clickable" id="btn-open-store-coins" title="Open Store">
+              <span>🪙</span>
+              <span id="hud-coins">40</span>
+            </div>
+
+            <button id="btn-store" class="btn-icon-subtle" title="Striker Store">🛒</button>
+            <button id="btn-restart" class="btn-icon-subtle btn-action-tablet" title="Restart Level">🔄</button>
+            <button id="btn-sound" class="btn-icon-subtle btn-action-tablet" title="Mute/Unmute">🔊</button>
+            <button id="btn-settings" class="btn-icon-subtle" title="Settings">⚙️</button>
+          </div>
+        </div>
+
+        <!-- Row 2: Phone Mission & Action Sub-bar (Active on Phone Portrait) -->
+        <div class="hud-row hud-sub-row" id="hud-phone-sub-bar">
+          <div class="hud-pill clickable" id="hud-level-badge-phone" title="Click for 50-Level Map">
+            <span id="hud-level-text-phone">Level 1</span>
+            <span style="opacity: 0.5;">•</span>
+            <span id="hud-shots-text-phone">🎯 4 Shots Left</span>
+          </div>
+
+          <div class="hud-pill" id="hud-multiplayer-scoreboard-phone" style="display: none;">
+            <span id="p1-score-tag-phone">P1: 0</span>
+            <span style="opacity: 0.5;">-</span>
+            <span id="p2-score-tag-phone">P2: 0</span>
+          </div>
+
+          <div class="hud-sub-actions">
+            <button id="btn-restart-phone" class="btn-sub-pill" title="Restart Level"><span>🔄</span> Retry</button>
+            <button id="btn-sound-phone" class="btn-sub-pill" title="Sound"><span>🔊</span></button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Minimalist Turn Banner (2P / Bot) -->
+      <div id="turn-banner" style="display: none;">
+        <span id="turn-banner-text">Player 1's Turn</span>
+      </div>
+
+      <!-- Canvas Area (Portrait 480x800 Virtual Arena) -->
+      <main id="canvas-container">
+        <canvas id="game-canvas" width="480" height="800"></canvas>
+        <div id="aim-hint">Pull down to aim & release to flick goti!</div>
+
+        <!-- Level 1 Guided Interactive Tutorial Overlay -->
+        <div id="tutorial-overlay" class="tutorial-overlay" style="display: none;">
+          <div class="tutorial-banner">
+            <div class="tutorial-step-tag">💡 LEVEL 1 GUIDE</div>
+            <div class="tutorial-text" id="tutorial-instruction-text">Pull finger back from marble to aim, release to flick!</div>
+            <button id="btn-skip-tutorial" class="btn-tutorial-skip">Got It ✓</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Daily Login Gift Modal (Rozana Inaam) -->
+    <div id="modal-daily-gift" class="modal-overlay">
+      <div class="modal-card" style="max-width: 380px;">
+        <div style="font-size: 44px; margin-bottom: 8px;">🎁</div>
+        <h2 class="modal-title">Rozana Inaam!</h2>
+        <p class="modal-subtitle">Daily login reward for visiting the Mohalla!</p>
+        
+        <div style="background: rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 12px; margin-bottom: 18px;">
+          <div style="font-size: 28px;">💡</div>
+          <div style="font-weight: 700; color: #FFE082; margin-top: 4px;">+1 Free Hint Bulb</div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Use in hard levels to see the golden trick-shot line!</div>
+        </div>
+
+        <button class="btn-primary-clean" id="btn-claim-daily" style="width: 100%;">Collect Reward</button>
+      </div>
+    </div>
+
+    <!-- Two-Tier Carrom-Style Store Modal -->
+    <div id="modal-store" class="modal-overlay">
+      <div class="modal-card" style="max-width: 520px;">
+        <button class="btn-close-subtle" id="btn-close-store">✕</button>
+        <h2 class="modal-title">STRIKER COLLECTION</h2>
+        <p class="modal-subtitle">Equip unique strikers with custom Power, Puddle Grip, and Rebound stats.</p>
+        
+        <!-- Tabs: Galli (Coins) vs Pro (Premium ₹) -->
+        <div class="store-tabs">
+          <button class="tab-btn active" id="tab-galli">🪙 Galli Strikers (Coins)</button>
+          <button class="tab-btn" id="tab-pro">💎 Pro Strikers (₹ Premium)</button>
+        </div>
+
+        <div id="store-strikers-list" style="max-height: 380px; overflow-y: auto; padding: 4px;">
+          <!-- Injected dynamically with Carrom stat bars -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Snakes & Ladders 50-Level Map Modal -->
+    <div id="modal-map" class="modal-overlay">
+      <div class="modal-card" style="max-width: 600px;">
+        <button class="btn-close-subtle" id="btn-close-map">✕</button>
+        <h2 class="modal-title">50-STAGE BOARD MAP</h2>
+        <p class="modal-subtitle">Snakes and Ladders Mohalla trail.</p>
+        
+        <div class="map-board" id="map-board-container" style="max-height: 400px; overflow-y: auto;"></div>
+
+        <div style="margin-top: 16px;">
+          <button class="btn-primary-clean" id="btn-play-current">Continue Playing</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solo Victory Modal (Clean Minimalist) -->
+    <div id="modal-victory" class="modal-overlay">
+      <div class="modal-card" style="max-width: 400px;">
+        <h2 class="modal-title">Level Cleared!</h2>
+        <p class="modal-subtitle" id="victory-subtitle">Clean strike outside the circle!</p>
+        
+        <div class="star-container">
+          <span class="star" id="star-1">★</span>
+          <span class="star" id="star-2">★</span>
+          <span class="star" id="star-3">★</span>
+        </div>
+
+        <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
+          Reward: <span id="victory-coins" style="color: var(--accent-gold); font-weight: 700;">+8</span> 🪙
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button class="btn-primary-clean" id="btn-next-level">Next Level ➡</button>
+          <button class="btn-secondary-clean" id="btn-victory-replay">🔄 Replay</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match Over Modal (Multiplayer / Bot) -->
+    <div id="modal-match-over" class="modal-overlay">
+      <div class="modal-card" style="max-width: 400px;">
+        <h2 class="modal-title" id="match-winner-title">Match Over!</h2>
+        <p class="modal-subtitle" id="match-winner-desc">Great game!</p>
+
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+          <button class="btn-primary-clean" id="btn-rematch">Play Rematch</button>
+          <button class="btn-secondary-clean" id="btn-match-menu">Menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="modal-gameover" class="modal-overlay">
+      <div class="modal-card" style="max-width: 380px;">
+        <h2 class="modal-title" style="color: #E57373;">Shots Finished</h2>
+        <p class="modal-subtitle" id="gameover-reason">Some targets remained inside the ring.</p>
+        
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 18px;">
+          <button class="btn-primary-clean" id="btn-retry">Try Again</button>
+          <button class="btn-secondary-clean" id="btn-gameover-map">Map</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="modal-settings" class="modal-overlay">
+      <div class="modal-card" style="max-width: 420px;">
+        <button class="btn-close-subtle" id="btn-close-settings">✕</button>
+        <h2 class="modal-title">Settings</h2>
+        <p class="modal-subtitle">Audio & Player Preferences</p>
+
+        <div class="setting-row">
+          <span>Street Ambiance</span>
+          <input type="range" id="slider-ambience" min="0" max="100" value="40">
+        </div>
+
+        <div class="setting-row">
+          <span>Sound Effects</span>
+          <input type="range" id="slider-volume" min="0" max="100" value="80">
+        </div>
+
+        <div class="setting-row">
+          <span>Player Nickname</span>
+          <input type="text" id="input-player-name" value="Raju (You)" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-subtle); color: #FFF; padding: 4px 8px; border-radius: 6px; font-size: 13px; text-align: right; width: 140px;">
+        </div>
+
+        <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn-primary-clean" id="btn-settings-guide" style="width: 100%; justify-content: center; gap: 8px; font-size: 13px; padding: 10px 16px;">
+            <span>📖</span> Open Full Game Guide & Rules
+          </button>
+          <button class="btn-secondary-clean" id="btn-reset-data" style="font-size: 12px; color: #E57373;">Reset Progress</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📖 Complete Features & How-To-Play Guide Modal -->
+    <div id="modal-guide" class="modal-overlay">
+      <div class="modal-card guide-modal-card" style="max-width: 520px; text-align: left;">
+        <button class="btn-close-subtle" id="btn-close-guide" style="position: absolute; top: 16px; right: 16px;">✕</button>
+        
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 24px;">📖</span>
+          <h2 class="modal-title" style="margin-bottom: 0;">KANCHA USTAAD GUIDE</h2>
+        </div>
+        <p class="modal-subtitle" style="margin-bottom: 12px;">Controls, features, smart bulb bank shots & rules</p>
+
+        <!-- Guide Category Tabs -->
+        <div class="guide-tabs">
+          <button class="guide-tab-btn active" data-tab="guide-tab-controls">🎯 Aim & Flick</button>
+          <button class="guide-tab-btn" data-tab="guide-tab-bulb">💡 Bulb & Bank</button>
+          <button class="guide-tab-btn" data-tab="guide-tab-obstacles">🧱 Obstacles</button>
+          <button class="guide-tab-btn" data-tab="guide-tab-strikers">🛒 Strikers</button>
+          <button class="guide-tab-btn" data-tab="guide-tab-modes">🗺️ 50 Levels</button>
+        </div>
+
+        <div class="guide-content-area" style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
+          
+          <!-- TAB 1: AIM & FLICK CONTROLS -->
+          <div id="guide-tab-controls" class="guide-tab-pane active">
+            <div class="guide-item">
+              <div class="guide-item-title">👆 1. Drag Backward to Aim (Slingshot Control)</div>
+              <p class="guide-item-desc">Touch or click on your Striker marble (the goti with the white dashed circle) and pull <strong>backwards in the opposite direction</strong> of where you want to shoot.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">📏 2. Power & Trajectory Dots</div>
+              <p class="guide-item-desc">Pulling farther back increases flick power. The white dotted trajectory line shows the initial release line and angle. Release your finger to shoot!</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">📍 3. "Jahan Ruki Wahin Se" (Street Rule)</div>
+              <p class="guide-item-desc">Your striker does not teleport back to base! You always take your next shot from <strong>wherever the marble came to a complete stop</strong> on the dirt pitch.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">⭕ 4. True Circle Knockout Win Condition</div>
+              <p class="guide-item-desc">To clear a level, you must knock target marbles <strong>100% completely outside the chalk ring</strong> before running out of shots.</p>
+            </div>
+          </div>
+
+          <!-- TAB 2: SMART BULB HINT & CROSS HIT -->
+          <div id="guide-tab-bulb" class="guide-tab-pane">
+            <div class="guide-item">
+              <div class="guide-item-title">💡 Permanent Aiming Arrow (No Timer!)</div>
+              <p class="guide-item-desc">Tap the <strong>💡 Bulb</strong> button in the HUD. A bright golden guide line locks onto the best target goti. It <strong>never disappears</strong> until you actually flick the marble, so you can plan your shot calmly.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">⚡ Smart Cross Hit (Bank Shot Around Walls)</div>
+              <p class="guide-item-desc">When a red brick or obstacle blocks the direct path, the bulb automatically computes a <strong>ricochet bank shot off the side cushions</strong>! Follow the two-legged golden path bouncing off the cushion around the wall into the target.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">🪙 How to Get More Bulbs</div>
+              <p class="guide-item-desc">You receive a <strong>free daily hint bulb</strong> every day upon opening the game! You can also buy bulbs in the store for 20 Coins earned by clearing levels.</p>
+            </div>
+          </div>
+
+          <!-- TAB 3: MOHALLA OBSTACLES & TERRAIN -->
+          <div id="guide-tab-obstacles" class="guide-tab-pane">
+            <div class="guide-item">
+              <div class="guide-item-title">🧱 Broken Red Bricks (Laal Eent)</div>
+              <p class="guide-item-desc">Hard terracotta obstacles placed at tricky angles. Your marble rebounds off them with 82% bounce retention. Use them for trick bank shots!</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">🪨 River Pebbles (Kankad)</div>
+              <p class="guide-item-desc">Heavy rounded stones scattered across the street. Direct impacts deflect your marble, so aim carefully around them.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">🌧️ Rainy Water Puddles (Hydro-Drag)</div>
+              <p class="guide-item-desc">Glossy water puddles with mud. Rolling through puddles creates splash particles and slows your goti down unless you equip a high-grip striker.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">🕳️ Gucchu (The Dirt Pit)</div>
+              <p class="guide-item-desc">In Tier 3 levels, a traditional dirt hole is dug in the center. Sinking target marbles or your striker into the Gucchu earns maximum stars!</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">☠️ Black Penalty Gotis</div>
+              <p class="guide-item-desc">Do NOT touch or hit black gotis! Knocking a penalty marble out costs you penalty shots and drops your star score.</p>
+            </div>
+          </div>
+
+          <!-- TAB 4: STRIKERS & STATS -->
+          <div id="guide-tab-strikers" class="guide-tab-pane">
+            <div class="guide-item">
+              <div class="guide-item-title">🏋️ Mass / Power</div>
+              <p class="guide-item-desc">Determines kinetic momentum transfer. Heavier strikers (like <em>Sunehra Raja</em> and <em>Maharaja Gold</em>) hit like a cannonball to blast clusters of gotis out in one hit.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">💧 Puddle Grip</div>
+              <p class="guide-item-desc">Strikers with high grip (like <em>Billi Ki Aankh / Cat's Eye</em> and <em>Neelam</em>) glide right through rainwater puddles with minimal speed loss.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">🏓 Rebound / Bounce</div>
+              <p class="guide-item-desc">Higher rebound stat preserves velocity when bouncing off walls, red bricks, and cushions for long-range trick shots.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">🪙 Galli vs 💎 Pro Strikers</div>
+              <p class="guide-item-desc">Unlock Galli strikers using coins earned from winning levels. Pro strikers feature tournament-grade diamond and gold specs.</p>
+            </div>
+          </div>
+
+          <!-- TAB 5: 50 MOHALLA LEVELS & MODES -->
+          <div id="guide-tab-modes" class="guide-tab-pane">
+            <div class="guide-item">
+              <div class="guide-item-title">🗺️ Snakes & Ladders 50-Level Trail</div>
+              <p class="guide-item-desc">50 uniquely designed levels across 5 mohalla tiers. Climb ladders to skip ahead, but watch out for tricky snakes!</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">⏩ Forward Unlock (+2 Levels)</div>
+              <p class="guide-item-desc">Every time you beat a level, the game automatically unlocks the <strong>next 2 levels ahead</strong> so you always have choices in your journey.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">🤖 Chintu (AI Bot Mode)</div>
+              <p class="guide-item-desc">Play a turn-based street duel against the neighborhood AI champion. First player to eliminate 4 gotis wins the match.</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-item-title">👥 Pass-and-Play (2-Player Mode)</div>
+              <p class="guide-item-desc">Compete with a friend on the same phone or tablet screen, taking turns with green and red strikers.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 14px; text-align: center;">
+          <button class="btn-primary-clean" id="btn-close-guide-footer" style="width: 100%; justify-content: center; font-size: 13px; padding: 10px;">
+            ✓ Got It, Let's Play!
+          </button>
+        </div>
+      </div>
+    </div> <!-- Close #modal-guide -->
+
+    <!-- 👤 FREE FIRE / PUBG MOBILE STYLE ESPORTS PROFILE MODAL -->
+    <div id="modal-guest-profile" class="modal-overlay">
+      <div class="modal-card pubg-profile-card">
+        <!-- Close Button -->
+        <button class="btn-close-subtle pubg-close-btn" id="btn-close-guest-profile" title="Close Profile">✕</button>
+
+        <!-- TOP BANNER: PUBG / FREE FIRE MILITARY-ESPORTS HEADER -->
+        <div class="pubg-header-banner">
+          <div class="pubg-rank-badge-ribbon" id="profile-tier-badge">
+            <span class="ribbon-star">★</span>
+            <span id="profile-tier-name">DIAMOND GULLY STRIKER</span>
+            <span class="ribbon-star">★</span>
+          </div>
+
+          <div class="pubg-id-row">
+            <!-- Avatar with Glowing Tier Hexagon Frame -->
+            <div class="pubg-avatar-frame" id="profile-avatar-frame">
+              <div class="pubg-avatar-emoji" id="profile-modal-avatar">🧒</div>
+              <div class="pubg-level-badge" id="profile-level-badge">LV.19</div>
+            </div>
+
+            <!-- Player Details & UID -->
+            <div class="pubg-player-details">
+              <div class="pubg-name-row">
+                <span class="pubg-player-name" id="profile-display-name">Raju</span>
+                <input type="text" id="input-profile-name" class="pubg-name-input" maxlength="14" value="Raju" style="display: none;">
+                <button class="pubg-edit-name-btn" id="btn-edit-profile-name" title="Edit Nickname">✏️</button>
+              </div>
+
+              <!-- UID Pill & Honor Tag -->
+              <div class="pubg-uid-bar">
+                <span class="pubg-uid-tag">UID: <strong id="profile-modal-guest-id">74829103</strong></span>
+                <button id="btn-copy-guest-id" class="pubg-copy-btn" title="Copy UID">📋 COPY</button>
+                <span class="pubg-server-tag">🇮🇳 IND</span>
+              </div>
+
+              <!-- Title & Status Bio -->
+              <div class="pubg-title-tag" id="profile-honor-title">🏅 Gali Conqueror</div>
+            </div>
+          </div>
+
+          <!-- Season XP Progress Bar -->
+          <div class="pubg-xp-container">
+            <div class="pubg-xp-labels">
+              <span>SEASON 1 • MOHALLA TOURNAMENT</span>
+              <span id="profile-xp-text">Stage 19 / 50 (38%)</span>
+            </div>
+            <div class="pubg-xp-bar">
+              <div class="pubg-xp-fill" id="profile-xp-fill" style="width: 38%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FREE FIRE STYLE NAVIGATION TABS -->
+        <div class="pubg-nav-tabs">
+          <button class="pubg-tab-btn active" data-tab="pubg-tab-career">📊 CAREER STATS</button>
+          <button class="pubg-tab-btn" data-tab="pubg-tab-avatars">🦸 CHARACTERS</button>
+          <button class="pubg-tab-btn" data-tab="pubg-tab-arsenal">🎒 ARSENAL</button>
+        </div>
+
+        <!-- TAB CONTENT AREA -->
+        <div class="pubg-tabs-body">
+          
+          <!-- TAB 1: CAREER STATS -->
+          <div id="pubg-tab-career" class="pubg-tab-pane active">
+            <!-- 4-Card Battle Stats Grid -->
+            <div class="pubg-stats-grid">
+              <div class="pubg-stat-card">
+                <div class="stat-card-icon">🎯</div>
+                <div class="stat-card-val" id="pubg-stat-stage">19 / 50</div>
+                <div class="stat-card-label">CURRENT STAGE</div>
+              </div>
+              <div class="pubg-stat-card">
+                <div class="stat-card-icon">⭐</div>
+                <div class="stat-card-val" id="pubg-stat-stars">48 ★</div>
+                <div class="stat-card-label">TOTAL STARS</div>
+              </div>
+              <div class="pubg-stat-card">
+                <div class="stat-card-icon">🏆</div>
+                <div class="stat-card-val" id="pubg-stat-winrate">94.2%</div>
+                <div class="stat-card-label">STRIKE RATE</div>
+              </div>
+              <div class="pubg-stat-card">
+                <div class="stat-card-icon">⚡</div>
+                <div class="stat-card-val" id="pubg-stat-bankshots">TRICKSHOT</div>
+                <div class="stat-card-label">SPECIALTY</div>
+              </div>
+            </div>
+
+            <!-- Inventory Strip -->
+            <div class="pubg-inventory-strip">
+              <div class="inventory-item">
+                <span>🪙 Coins:</span>
+                <strong id="pubg-inv-coins">120</strong>
+              </div>
+              <div class="inventory-item">
+                <span>💡 Bulbs:</span>
+                <strong id="pubg-inv-bulbs">5</strong>
+              </div>
+              <div class="inventory-item">
+                <span>🛡️ Fair Play:</span>
+                <strong style="color: #4CAF50;">100% Rep</strong>
+              </div>
+            </div>
+
+            <!-- Signature Bio Box -->
+            <div class="pubg-bio-card">
+              <span class="bio-label">STREET MOTTO:</span>
+              <input type="text" id="input-profile-bio" class="pubg-bio-input" maxlength="40" value="Ek goli, ek nishana! Mohalla Champion." placeholder="Add your street motto...">
+            </div>
+          </div>
+
+          <!-- TAB 2: CHARACTERS & AVATARS -->
+          <div id="pubg-tab-avatars" class="pubg-tab-pane">
+            <div class="pubg-section-hint">Choose your Street Warrior to lead you in battle:</div>
+            <div class="pubg-characters-grid" id="avatars-grid">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+
+          <!-- TAB 3: ARSENAL (Equipped Striker) -->
+          <div id="pubg-tab-arsenal" class="pubg-tab-pane">
+            <div class="pubg-arsenal-card">
+              <div class="arsenal-preview-box">
+                <canvas id="pubg-arsenal-canvas" width="64" height="64" style="border-radius: 50%;"></canvas>
+                <div class="arsenal-name" id="pubg-arsenal-name">Classic Banta</div>
+                <div class="arsenal-tier" id="pubg-arsenal-tier">Standard Gali Gotis</div>
+              </div>
+              <div class="arsenal-stats-bars">
+                <div class="arsenal-stat-line">
+                  <span>Vazan (Power)</span>
+                  <div class="stat-bar"><div class="stat-fill" id="pubg-stat-power" style="width: 50%;"></div></div>
+                </div>
+                <div class="arsenal-stat-line">
+                  <span>Pakad (Grip)</span>
+                  <div class="stat-bar"><div class="stat-fill" id="pubg-stat-grip" style="width: 50%; background: #4CAF50;"></div></div>
+                </div>
+                <div class="arsenal-stat-line">
+                  <span>Lachak (Bounce)</span>
+                  <div class="stat-bar"><div class="stat-fill" id="pubg-stat-rebound" style="width: 50%; background: #29B6F6;"></div></div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-secondary-clean" id="btn-profile-open-store" style="width: 100%; margin-top: 10px; font-size: 13px; padding: 10px; justify-content: center;">
+              🛒 Change Striker in Store
+            </button>
+          </div>
+
+        </div>
+
+        <!-- BOTTOM ACTION: RESUME BATTLE -->
+        <div class="pubg-footer-actions">
+          <button class="btn-play-clean pubg-btn-resume" id="btn-profile-continue">
+            ▶ RESUME BATTLE (STAGE 19)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎉 First-Time Guest Onboarding Modal -->
+    <div id="modal-guest-welcome" class="modal-overlay">
+      <div class="modal-card" style="max-width: 420px; text-align: center;">
+        <div style="font-size: 40px; margin-bottom: 6px;">🎉</div>
+        <h2 class="modal-title">WELCOME TO KANCHA!</h2>
+        <p class="modal-subtitle">Play instantly as a Guest — Your progress is saved automatically on this device!</p>
+
+        <div class="guest-welcome-id-box">
+          <span style="font-size: 12px; color: var(--text-muted);">Your Permanent Guest UID:</span>
+          <div class="welcome-id-tag" id="welcome-guest-id">UID: 74829103</div>
+        </div>
+
+        <div class="section-title" style="margin-top: 14px; margin-bottom: 8px;">CHOOSE YOUR STREET HERO:</div>
+        <div class="pubg-characters-grid" id="welcome-avatars-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <button class="btn-primary-clean" id="btn-welcome-start" style="width: 100%; margin-top: 18px; justify-content: center; font-size: 14px; padding: 12px;">
+          START PLAYING 🎯
+        </button>
+      </div>
+    </div>
+
+  </div> <!-- Close #game-app -->
+
+  <!-- Scripts -->
+  <script src="audio.js"></script>
+  <script src="marble.js"></script>
+  <script src="physics.js"></script>
+  <script src="levels.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
